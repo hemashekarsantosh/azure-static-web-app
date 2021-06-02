@@ -22,11 +22,15 @@
   },
   "routes": [
     {
-      "route": "/",
-      "rewrite": "/.auth/login/okta"
+      "route": "/login",
+      "redirect": "/.auth/login/okta"
     },
     {
       "route":"/api/*",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route":"/*",
       "allowedRoles": ["authenticated"]
     }
   ]
