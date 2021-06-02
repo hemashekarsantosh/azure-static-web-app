@@ -1,23 +1,33 @@
 {
-    "auth": {
-      "identityProviders": {
-        "customOpenIdConnectProviders": {
-          "okta": {
-            "registration": {
-              "clientIdSettingName": "OKTA_ID",
-              "clientCredential": {
-                "clientSecretSettingName": "OKTA_SECRET"
-              },
-              "openIdConnectConfiguration": {
-                "wellKnownOpenIdConfiguration": "https://dev-15164113.okta.com/.well-known/openid-configuration"
-              }
+  "auth": {
+    "identityProviders": {
+      "customOpenIdConnectProviders": {
+        "okta": {
+          "registration": {
+            "clientIdSettingName": "OKTA_ID",
+            "clientCredential": {
+              "clientSecretSettingName": "OKTA_SECRET"
             },
-            "login": {
-              "nameClaimType": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
-              "scopes": ["openid", "profile"]
+            "openIdConnectConfiguration": {
+              "wellKnownOpenIdConfiguration": "https://dev-15164113.okta.com/.well-known/openid-configuration"
             }
+          },
+          "login": {
+            "nameClaimType": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+            "scopes": ["openid", "profile"]
           }
         }
       }
     }
-  }
+  },
+  "routes": [
+    {
+      "route": "/",
+      "rewrite": "/.auth/login/okta"
+    },
+    {
+      "route":"/api/*",
+      "allowedRoles": ["authenticated"]
+    }
+  ]
+}
